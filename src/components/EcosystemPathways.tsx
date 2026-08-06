@@ -120,21 +120,6 @@ export const EcosystemPathways: React.FC<EcosystemPathwaysProps> = ({
                   >
                     View Enterprise Profile
                   </button>
-                  <a 
-                    href={company.websiteUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-xs text-white border border-white/20 px-4 py-2.5 rounded-full text-decoration-none cursor-pointer flex items-center gap-1 bg-slate-900 hover:bg-slate-800 shadow-sm transition-all"
-                    onClick={(e) => {
-                      if (company.websiteUrl.includes('example.com')) {
-                        e.preventDefault();
-                        alert(`[Build Bharat Gateway]\n\nNavigating to official website placeholder for:\n"${company.name}"\nURL: ${company.websiteUrl}`);
-                      }
-                    }}
-                  >
-                    <span>Official Website</span>
-                    <ExternalLink size={13} />
-                  </a>
                 </div>
               </div>
             );

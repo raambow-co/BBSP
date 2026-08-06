@@ -332,27 +332,11 @@ export const LoansPage: React.FC<LoansPageProps> = ({ onNavigate, onOpenPartnerM
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
                <button 
                  onClick={onOpenPartnerModal}
-                 className="btn-gold bg-[#B08B54] hover:bg-[#1F1D1A] text-white justify-center rounded-full px-5 py-2.5 flex items-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold transition-colors"
+                 className="bg-[#10367D] hover:bg-[#0A2254] text-white justify-center rounded-full px-5 py-2.5 flex items-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold transition-colors shadow-sm border-none"
                >
-                 <span>Partner With Us</span>
+                 <span>Request Financing</span>
                  <ArrowRight size={14} />
                </button>
-              
-              <a
-                href={company.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  if (company.websiteUrl.includes('example.com')) {
-                    e.preventDefault();
-                    alert(`[Build Bharat Gateway Redirect]\n\nRouting to placeholder URL: ${company.websiteUrl}\n\nIn production, this connects to the official standalone website of ${company.name}.`);
-                  }
-                }}
-                className="bg-white hover:bg-[#FAF9F6] text-[#1F1D1A] border border-[#EBE6DD] rounded-full px-5 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold text-decoration-none transition-colors"
-              >
-                <span>Visit Official Website</span>
-                <ExternalLink size={14} />
-              </a>
             </div>
           </div>
 

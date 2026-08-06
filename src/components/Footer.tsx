@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Handshake, MapPin, Phone, Mail } from 'lucide-react';
+import { Handshake, MapPin, Phone, Mail, Youtube, Instagram, Facebook } from 'lucide-react';
 
 interface FooterProps {
   onSelectCategory?: (catId: string) => void;
@@ -161,13 +161,27 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPartner, onNavigate }) => 
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[#7d8ea3] text-[11px] font-medium">
-          <p className="text-center md:text-left">
-            © {new Date().getFullYear()} Build Bharat Synergy Partners. All rights reserved.
-          </p>
-          <p className="font-semibold text-center md:text-right">
-            MD: D Sudheer Reddy
-          </p>
+        <div className="pt-6 mt-6 flex flex-col md:flex-row items-center justify-between gap-6 text-[#7d8ea3] text-xs font-medium">
+          <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+            <div className="flex items-center gap-2.5 bg-[#0a2440] px-3.5 py-1.5 rounded-full border border-[#2c4a6b]/60 shadow-sm hover:border-[#f0a951]/50 transition-colors">
+              <img src="/raambow-tech-logo.jpg" alt="RaamBow Logo" className="h-5 w-5 object-cover rounded-full ring-1 ring-white/10" />
+              <span className="text-[#b9c6d6]">Developed by <strong className="text-[#f0a951] tracking-wider uppercase font-bold text-[10px]">RaamBow</strong></span>
+            </div>
+            <span>© {new Date().getFullYear()} Build Bharat Synergy Partners. All rights reserved.</span>
+          </div>
+          
+          <div className="flex items-center gap-6">
+            {/* Social Icons */}
+            <div className="flex items-center gap-4">
+              <a href="#" aria-label="YouTube" className="text-[#b9c6d6] hover:text-[#f0a951] transition-all hover:scale-110"><Youtube size={18} strokeWidth={1.5} /></a>
+              <a href="#" aria-label="Instagram" className="text-[#b9c6d6] hover:text-[#f0a951] transition-all hover:scale-110"><Instagram size={18} strokeWidth={1.5} /></a>
+              <a href="#" aria-label="Facebook" className="text-[#b9c6d6] hover:text-[#f0a951] transition-all hover:scale-110"><Facebook size={18} strokeWidth={1.5} /></a>
+            </div>
+            <span className="hidden md:block w-px h-5 bg-[#2c4a6b]/60"></span>
+            <p className="font-semibold text-center md:text-right uppercase tracking-wider text-[10px] text-[#b9c6d6]">
+              MD: D Sudheer Reddy
+            </p>
+          </div>
         </div>
       </div>
     </footer>

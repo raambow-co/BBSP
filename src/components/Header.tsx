@@ -380,11 +380,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 pr-6 md:pr-8 ${
-        scrolled 
-          ? 'glass-panel shadow-sm border-b border-slate-200/40' 
-          : 'bg-transparent border-b border-transparent'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 pr-6 md:pr-8 bg-white shadow-[0_8px_30px_rgba(0,0,0,0.12)] border-b border-slate-200/40"
     >
       <div className="max-w-[1600px] mx-auto flex items-center justify-between">
         

@@ -190,7 +190,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
     : [];
 
   return (
-    <section id="discovery" className="relative pt-24 pb-16 md:pt-36 md:pb-24 overflow-hidden bg-grid-pattern bg-[var(--bg-dark)] bg-grainy border-b border-white/10">
+    <section id="discovery" className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-grid-pattern bg-[var(--bg-dark)] bg-grainy border-b border-white/10">
       {/* Subtle Glow background blob */}
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[300px] bg-[#A5CEE0]/5 rounded-full blur-[100px] pointer-events-none" />
       
@@ -207,14 +207,11 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
               <img 
                 src="/build-bharat-logo.png" 
                 alt="Build Bharat Synergy Partners Logo" 
-                className="h-56 sm:h-72 w-auto object-contain text-left mb-2 ml-6" 
+                className="h-28 sm:h-36 w-auto object-contain text-left mb-6 ml-6 hover:scale-105 transition-all duration-700 ease-out drop-shadow-xl" 
               />
               <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10367D] tracking-tight leading-tight heading-font">
                 What are you looking for?
               </h1>
-              <p className="text-stone-750 text-base max-w-xl font-medium leading-relaxed">
-                Search and connect with verified ecosystem partners across Solar, Loans, Real Estate, and EdTech in seconds.
-              </p>
             </div>
  
             {/* Interactive Search Autocomplete Box */}

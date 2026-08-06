@@ -151,22 +151,6 @@ export const CompanyProfilePage: React.FC<CompanyProfilePageProps> = ({ companyI
                 <span>Partner With Us</span>
                 <ArrowRight size={14} />
               </button>
-              
-              <a
-                href={company.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  if (company.websiteUrl.includes('example.com')) {
-                    e.preventDefault();
-                    alert(`[Build Bharat Gateway Redirect]\n\nRouting to placeholder URL: ${company.websiteUrl}\n\nIn production, this connects to the official standalone website of ${company.name}.`);
-                  }
-                }}
-                className="bg-stone-100 hover:bg-stone-200 text-stone-850 border border-stone-200 rounded-full px-5 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold text-decoration-none"
-              >
-                <span>Visit Official Website</span>
-                <ExternalLink size={14} />
-              </a>
             </div>
           </div>
  

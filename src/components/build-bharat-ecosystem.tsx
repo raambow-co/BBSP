@@ -109,9 +109,7 @@ export function BuildBharatEcosystem({
               One vision.<br />
               Four directions.
             </h2>
-            <p className="text-[#5c6b80] text-sm leading-relaxed">
-              India's premier multi-brand B2B partnership platform, aligning sustainable infrastructure, corporate capital, prime real estate and industrial skill training under one verification framework.
-            </p>
+
 
             {/* Active Region Filter Badge */}
             {selectedHub && (

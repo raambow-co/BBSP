@@ -266,7 +266,7 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
                   Whether you are seeking sustainable solar power, financial credit, property investment, or tech upskilling—Build Bharat connects you with specialized enterprise partners under one trustworthy ecosystem.
                 </p>
  
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
                   <button
                     onClick={onOpenModal}
                     className="btn-gold w-full sm:w-auto justify-center text-xs px-8 py-3.5 rounded-full cursor-pointer uppercase tracking-wider font-bold flex items-center gap-1.5 animate-pulse"
@@ -284,6 +284,19 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
                   >
                     <span>Explore Pathways</span>
                   </button>
+                </div>
+
+                <div className="mt-8 rounded-2xl overflow-hidden shadow-lg border border-stone-200 max-w-4xl mx-auto bg-white p-2">
+                  <iframe 
+                    src="https://maps.google.com/maps?q=17.320444,78.627167&hl=en&z=15&output=embed" 
+                    width="100%" 
+                    height="400" 
+                    style={{ border: 0, borderRadius: '12px' }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Build Bharat Synergy Partners Location"
+                  ></iframe>
                 </div>
               </div>
             )}

@@ -2,46 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, useReducedMotion } from 'motion/react';
 import { Zap, Banknote, ShieldCheck, BadgeCheck, ArrowUpRight } from 'lucide-react';
 
-interface SubsidyTier {
-  kw: string;
-  subsidy: number;
-  label: string;
-}
-
-// Data array for subsidy tiers to make it easy to update if revised
-const SUBSIDY_TIERS: SubsidyTier[] = [
-  { kw: "1 kW System", subsidy: 30000, label: "Direct Financial Assistance" },
-  { kw: "2 kW System", subsidy: 60000, label: "Direct Financial Assistance" },
-  { kw: "3 kW or Higher", subsidy: 78000, label: "Maximum Cap Assistance" }
-];
-
 // Factual figures are sourced from the official PM Surya Ghar portal (pmsuryaghar.gov.in) as of 2026.
-// Note: Subsidy schemes are subject to revision by the Ministry of New and Renewable Energy (MNRE).
-const CountUp: React.FC<{ target: number; duration?: number; trigger: boolean }> = ({ target, duration = 1.2, trigger }) => {
-  const [count, setCount] = useState(0);
-  const shouldReduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (shouldReduceMotion) {
-      setCount(target);
-      return;
-    }
-    if (!trigger) return;
-
-    let startTimestamp: number | null = null;
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / (duration * 1000), 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    window.requestAnimationFrame(step);
-  }, [trigger, target, duration, shouldReduceMotion]);
-
-  return <span>₹{count.toLocaleString('en-IN')}</span>;
-};
+// Note: Schemes are subject to revision by the Ministry of New and Renewable Energy (MNRE).
 
 export const GovernmentInitiativeSection: React.FC = () => {
   const ref = useRef(null);
@@ -164,48 +126,29 @@ export const GovernmentInitiativeSection: React.FC = () => {
           </div>
 
         </div>
-
-        {/* Subsidy Tiers Grid Section */}
-        <div className="border-t border-[#EBE6DD] pt-12">
-          <div className="text-center mb-10">
-            <h3 className="text-lg font-bold uppercase tracking-widest text-[#B08B54] subheading-font mb-2">
-              National Subsidy Matrix
-            </h3>
-            <p className="text-xs text-[#6E6A61] font-sans">
-              Direct Benefit Transfer (DBT) subsidy matrix for residential installations
+        
+        {/* Sleek Features Section instead of Subsidy Matrix */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 bg-white rounded-2xl border border-[#EBE6DD] p-8 shadow-sm flex flex-col sm:flex-row items-center gap-8 justify-between relative overflow-hidden group"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF9933]/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110" />
+          
+          <div className="flex-1">
+            <h3 className="text-2xl font-extrabold text-[#1F1D1A] heading-font tracking-tight uppercase mb-2">Net Metering Advantage</h3>
+            <p className="text-[#6E6A61] text-sm leading-relaxed font-sans max-w-lg">
+              Install a solar plant and seamlessly integrate it with the local grid. Unused power generated during the day is exported to the grid, drastically reducing your electricity bills to near zero.
             </p>
           </div>
-
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          >
-            {SUBSIDY_TIERS.map((tier, idx) => (
-              <motion.div 
-                key={idx}
-                variants={cardVariants}
-                className="bg-white border border-[#EBE6DD] p-6 rounded-2xl shadow-sm hover:shadow-md hover:border-[#B08B54]/40 transition-all text-center flex flex-col justify-between"
-              >
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#6E6A61] block mb-2 font-sans">
-                    {tier.kw}
-                  </span>
-                  <h4 className="text-3xl font-extrabold text-[#1F1D1A] font-sans tracking-tight mb-2">
-                    <CountUp target={tier.subsidy} trigger={isInView} />
-                  </h4>
-                </div>
-                <div className="border-t border-[#EBE6DD] pt-3 mt-4">
-                  <span className="text-[9px] font-semibold uppercase tracking-wider text-[#B08B54] block">
-                    {tier.label}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+          
+          <div className="shrink-0 relative z-10 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-[#FBF8F2] to-white rounded-xl border border-[#EBE6DD]">
+            <span className="text-[#FF9933] text-4xl mb-2"><Zap size={40} /></span>
+            <span className="text-xl font-extrabold heading-font tracking-tight text-[#1F1D1A]">Up to 300 Units</span>
+            <span className="text-[10px] uppercase font-bold tracking-widest text-[#6E6A61] font-sans mt-1">Free Electricity / Month</span>
+          </div>
+        </motion.div>
 
       </div>
     </section>

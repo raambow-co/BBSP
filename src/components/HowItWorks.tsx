@@ -1,3 +1,4 @@
+import React from 'react';
 import { Search, Compass, ShieldCheck } from 'lucide-react';
  
 export function HowItWorks() {
@@ -40,73 +41,48 @@ export function HowItWorks() {
 
       <div className="container-custom relative z-10">
         {/* Header Block */}
-        <div className="max-w-xl mx-auto text-center mb-12 relative z-10 space-y-4">
-          <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#B08B54] bg-[#B08B54]/10 px-3.5 py-1.5 rounded-full border border-[#B08B54]/20 shadow-xs inline-block font-sans">
+        <div className="max-w-xl mx-auto text-center mb-16 relative z-10 space-y-4">
+          <span className="text-xs font-extrabold uppercase tracking-widest text-[#10367D] bg-[#10367D]/10 px-4 py-2 rounded-full border border-[#10367D]/20 shadow-sm inline-block font-sans">
             Ecosystem Directory Flow
           </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#1F1D1A] heading-font leading-tight tracking-tight uppercase">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#1F1D1A] heading-font leading-tight tracking-tight uppercase">
             How Verification Works
           </h2>
-          <p className="text-[#6E6A61] text-sm sm:text-base leading-relaxed font-sans font-normal">
-            A secure, vetted transaction flow designed to match requirements with qualified B2B partners across India.
-          </p>
         </div>
  
         {/* Steps Grid Block */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10 items-center">
-          
-          {/* Left Column: 3 steps stacked vertically */}
-          <div className="lg:col-span-5 flex flex-col gap-5">
-            {steps.map((step, idx) => (
-              <div 
-                key={idx} 
-                className="bg-gradient-to-br from-[#FFFFFF] via-[#FAF8F5] to-[#F5EFE6]/70 border border-[#EBE6DD] p-5 rounded-2xl shadow-sm hover:shadow-xl hover:border-[#B08B54]/50 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative z-10 text-left group"
-              >
-                <div>
-                  {/* Card Icon & Step Number */}
-                  <div className="flex items-center justify-between mb-3.5">
-                    <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shadow-xs shrink-0 ${step.iconBg}`}>
-                      {step.icon}
-                    </div>
-                    <span className="text-3xl font-extrabold font-mono bg-gradient-to-br from-[#B08B54] to-[#10367D] bg-clip-text text-transparent opacity-30 group-hover:opacity-80 transition-opacity select-none">
-                      {step.num}
-                    </span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10 items-stretch max-w-6xl mx-auto">
+          {steps.map((step, idx) => (
+            <div 
+              key={idx} 
+              className="bg-white border border-slate-200/60 p-8 rounded-3xl shadow-lg hover:shadow-2xl hover:border-[#10367D]/30 hover:-translate-y-2 transition-all duration-500 flex flex-col relative z-10 text-center group"
+            >
+              <div className="flex flex-col items-center justify-center">
+                {/* Card Icon & Step Number */}
+                <div className="relative mb-6">
+                  <div className={`w-20 h-20 rounded-2xl flex items-center justify-center shadow-inner ${step.iconBg} transform group-hover:scale-110 transition-transform duration-500`}>
+                    {React.cloneElement(step.icon, { size: 36 })}
                   </div>
-                  
-                  {/* Content */}
-                  <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#B08B54] bg-[#B08B54]/10 px-2 py-0.5 rounded-md border border-[#B08B54]/20 inline-block mb-1.5 font-sans">
-                    {step.badge}
-                  </span>
-                  <h3 className="text-base font-extrabold text-[#1F1D1A] heading-font uppercase tracking-wide">
-                    {step.title}
-                  </h3>
-                  <p className="text-[#6E6A61] text-xs mt-1.5 leading-relaxed font-sans font-normal">
-                    {step.desc}
-                  </p>
-                  <p className="text-[#6E6A61]/70 text-[9px] mt-2.5 font-bold uppercase tracking-wider font-sans leading-relaxed border-t border-[#EBE6DD] pt-2">
+                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white border border-slate-100 shadow-sm flex items-center justify-center text-xs font-bold text-slate-500">
+                    {step.num}
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <h3 className="text-xl font-extrabold text-[#10367D] heading-font uppercase tracking-wide mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed font-sans mb-4">
+                  {step.desc}
+                </p>
+                <div className="mt-auto pt-4 border-t border-slate-100 w-full">
+                  <p className="text-[#10367D]/70 text-[10px] font-bold uppercase tracking-widest font-sans">
                     {step.supportingDesc}
                   </p>
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* Right Column: Floating India Map with Radial Glow */}
-          <div className="lg:col-span-7 flex flex-col items-center justify-center min-h-[460px] relative z-10 select-none">
-            {/* Map Radial Glow Aura */}
-            <div className="absolute w-[440px] h-[440px] bg-gradient-to-tr from-[#378ADD]/15 via-[#B08B54]/15 to-transparent blur-3xl rounded-full pointer-events-none" />
-
-            {/* Floating Map Container */}
-            <div className="animate-map-float z-10 relative">
-              <img 
-                src="/india-map-branches-blue-borders.png" 
-                alt="Build Bharat India Operations Map" 
-                className="w-full h-auto max-w-[560px] object-contain pointer-events-none drop-shadow-md"
-              />
             </div>
-            {/* Synced Depth Shadow */}
-            <div className="w-72 h-3 bg-stone-900/30 rounded-full blur-[8px] mt-8 animate-shadow-pulse" />
-          </div>
+          ))}
         </div>
       </div>
     </section>

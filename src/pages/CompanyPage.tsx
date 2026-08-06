@@ -376,16 +376,6 @@ const SolarHomepage: React.FC<{
                  <span>Get Free Consultation</span>
                  <ArrowRight size={14} />
                </button>
-              
-              <a
-                href={company.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white hover:bg-stone-100 text-[#1A1A1A] border border-stone-200 rounded-full px-6 py-3 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold text-decoration-none transition-all shadow-sm"
-              >
-                <span>Visit Official Website</span>
-                <ExternalLink size={14} />
-              </a>
             </div>
 
             {/* Stats Bar */}
@@ -544,49 +534,32 @@ const SolarHomepage: React.FC<{
                 </p>
               </div>
 
-              {/* Three-column subsidy cards inside the left block */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                {[
-                  { size: "1 kW System", subsidy: "₹30,000 Subsidy", desc: "Ideal for small households." },
-                  { size: "2 kW System", subsidy: "₹60,000 Subsidy", desc: "Perfect for medium homes." },
-                  { size: "3 kW or Higher", subsidy: "₹78,000 Subsidy (Max)", desc: "Optimal for larger homes." }
-                ].map((item, idx) => (
-                  <div 
-                    key={idx} 
-                    className="bg-gradient-to-br from-[#10367D] to-[#1A4594] text-white p-4 rounded-xl border border-white/5 shadow-sm flex flex-col justify-between min-h-[140px] transition-all hover:-translate-y-0.5"
-                  >
-                    <span className="text-white/60 text-[9px] font-bold uppercase tracking-widest font-sans">{item.size}</span>
-                    <div className="my-2">
-                      <span className="text-lg sm:text-xl font-extrabold heading-font tracking-tight block">{item.subsidy}</span>
-                      <p className="text-slate-200 text-[11px] mt-0.5 font-sans leading-snug">{item.desc}</p>
-                    </div>
-                    <span className="text-[#E8963C] text-[8px] font-bold uppercase tracking-wider font-sans">Direct Benefit Transfer</span>
-                  </div>
-                ))}
+              {/* Sleek Features inside the left block */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                <div className="bg-white border border-[#10367D]/10 p-5 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-[#E8963C]/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+                  <span className="text-[#E8963C] text-[10px] font-extrabold uppercase tracking-widest block mb-2 font-sans relative z-10">Net Metering</span>
+                  <span className="text-xl sm:text-2xl font-extrabold heading-font tracking-tight text-[#10367D] block mb-1 relative z-10">Up to 300 Units Free</span>
+                  <p className="text-stone-500 text-[11px] leading-relaxed font-sans relative z-10">Dramatically reduce or completely eliminate your monthly grid electricity bills.</p>
+                </div>
+                <div className="bg-gradient-to-br from-[#10367D] to-[#0A2254] border border-[#10367D]/20 p-5 rounded-2xl shadow-[0_8px_30px_rgb(16,54,125,0.12)] relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110" />
+                  <span className="text-white/60 text-[10px] font-extrabold uppercase tracking-widest block mb-2 font-sans relative z-10">Govt Backed</span>
+                  <span className="text-xl sm:text-2xl font-extrabold heading-font tracking-tight text-white block mb-1 relative z-10">Direct Bank Transfer</span>
+                  <p className="text-white/70 text-[11px] leading-relaxed font-sans relative z-10">Streamlined MNRE processing with direct deposit straight to your account.</p>
+                </div>
               </div>
 
-              {/* Callout Line & CTA */}
-              <div className="bg-[#10367D]/5 border border-[#10367D]/10 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
-                <div className="flex items-center gap-2 text-left">
-                  <span className="text-xl">⚡</span>
-                  <div>
-                    <span className="text-[#10367D] font-bold text-xs sm:text-sm block heading-font uppercase tracking-wide">
-                      Up to 300 units of free electricity every month once live.
-                    </span>
-                  </div>
-                </div>
+              {/* CTA */}
+              <div className="mt-6 flex items-center">
                 <button
                   onClick={onOpenPartnerModal}
-                  className="bg-[#1e3a6b] hover:bg-[#1e3a6b]/90 text-white text-[11px] font-bold uppercase tracking-wider px-5 py-2.5 rounded-full cursor-pointer transition-all border-none font-sans shrink-0 shadow-sm"
+                  className="bg-[#10367D] hover:bg-[#0A2254] text-white text-[11px] font-bold uppercase tracking-widest px-8 py-3.5 rounded-full cursor-pointer transition-all border-none font-sans shadow-md hover:shadow-lg flex items-center gap-2 group"
                 >
-                  Get a free site assessment
+                  <span>Request Free Site Assessment</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
-
-              {/* Disclaimer / Footnote */}
-              <p className="text-[10px] text-stone-500 font-sans leading-relaxed pt-2 max-w-xl">
-                * Subsidy amounts and eligibility are set by the Government of India / MNRE and subject to change. Confirm current details at <a href="https://pmsuryaghar.gov.in" target="_blank" rel="noreferrer" className="text-[#10367D] hover:underline font-bold">pmsuryaghar.gov.in</a>.
-              </p>
 
             </div>
 
@@ -1004,22 +977,6 @@ export const CompanyPage: React.FC<CompanyPageProps> = ({ category, onNavigate, 
                  <span>Partner With Us</span>
                  <ArrowRight size={14} />
                </button>
-              
-              <a
-                href={company.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  if (company.websiteUrl.includes('example.com')) {
-                    e.preventDefault();
-                    alert(`[Build Bharat Gateway Redirect]\n\nRouting to placeholder URL: ${company.websiteUrl}\n\nIn production, this connects to the official standalone website of ${company.name}.`);
-                  }
-                }}
-                className="bg-stone-100 hover:bg-stone-200 text-stone-850 border border-stone-200 rounded-full px-5 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold text-decoration-none"
-              >
-                <span>Visit Official Website</span>
-                <ExternalLink size={14} />
-              </a>
             </div>
           </div>
  
