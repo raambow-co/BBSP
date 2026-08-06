@@ -30,10 +30,10 @@ const AnimatedCounter: React.FC<{
       if (!startTime) startTime = timestamp;
       const progress = timestamp - startTime;
       const progressRatio = Math.min(progress / duration, 1);
-      
+
       // Cubic ease-out: f(t) = 1 - (1-t)^3
       const easeOutRatio = 1 - Math.pow(1 - progressRatio, 3);
-      
+
       setCount(easeOutRatio * targetValue);
 
       if (progress < duration) {
@@ -67,7 +67,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
     matchedKeywords: [],
     isExactMatch: false
   });
-  
+
   const [recentSearches, setRecentSearches] = useState<string[]>([
     'Rooftop solar solar arrays',
     'MSME project debt financing',
@@ -133,7 +133,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
     setSearchQuery(queryText);
     onSelectCategory(catId);
     setSearchFocused(false);
-    
+
     // Add to recent searches (keep unique, max 3)
     if (!recentSearches.includes(queryText)) {
       setRecentSearches(prev => [queryText, ...prev.slice(0, 2)]);
@@ -182,41 +182,41 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
 
   // Filter suggested items based on user query
   const autocompleteSuggestions = searchQuery.trim()
-    ? categories.filter(c => 
-        c.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        c.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.intentKeywords.some(k => k.toLowerCase().includes(searchQuery.toLowerCase()))
-      )
+    ? categories.filter(c =>
+      c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.intentKeywords.some(k => k.toLowerCase().includes(searchQuery.toLowerCase()))
+    )
     : [];
 
   return (
     <section id="discovery" className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden bg-grid-pattern bg-[var(--bg-dark)] bg-grainy border-b border-white/10">
       {/* Subtle Glow background blob */}
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[300px] bg-[#A5CEE0]/5 rounded-full blur-[100px] pointer-events-none" />
-      
+
       <div className="container-custom relative z-10">
-        
+
         {/* Two-Column Responsive Hero Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center text-left">
-          
+
           {/* Left Side: Copywriting & Search Action (6 Cols) */}
           <div className="lg:col-span-6 space-y-6 order-2 lg:order-1">
-            
+
             {/* Simplified Hero Heading & Brand Intro */}
             <div className="space-y-4">
-              <img 
-                src="/build-bharat-logo.png" 
-                alt="Build Bharat Synergy Partners Logo" 
-                className="h-16 sm:h-20 w-auto object-contain text-left mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md" 
+              <img
+                src="/build-bharat-logo.png"
+                alt="Build Bharat Synergy Partners Logo"
+                className="h-16 sm:h-20 w-auto object-contain text-left mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
               />
               <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10367D] tracking-tight leading-tight heading-font">
                 What are you looking for?
               </h1>
             </div>
- 
+
             {/* Interactive Search Autocomplete Box */}
             <div className="relative max-w-xl z-30" ref={dropdownRef}>
-              <form 
+              <form
                 onSubmit={handleFormSubmit}
                 className="discovery-wrapper flex items-center px-5 py-4 rounded-full border transition-all duration-300"
               >
@@ -247,11 +247,11 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
               <div className="mt-2 text-xs text-stone-750 font-semibold pl-4 text-left">
                 Tell us what you need — we'll connect you with a verified partner.
               </div>
- 
+
               {/* Autocomplete & Matching Popover Panel */}
               {searchFocused && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-[#FFFFFF] border border-[#10367D]/10 p-5 shadow-2xl animate-fadeIn text-left z-50 rounded-2xl glass-panel shadow-lg">
-                  
+
                   {/* Matching Results (If typing) */}
                   {searchQuery.trim() !== '' ? (
                     <div className="space-y-3">
@@ -287,7 +287,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
                   ) : (
                     /* Default Dropdown Suggestions (When empty) */
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      
+
                       {/* Left Side: Trending Searches */}
                       <div className="space-y-3">
                         <span className="text-[8px] font-bold text-[#10367D] uppercase tracking-widest block subheading-font">
@@ -306,7 +306,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
                           ))}
                         </div>
                       </div>
- 
+
                       {/* Right Side: Recent Searches */}
                       <div className="space-y-3">
                         <span className="text-[8px] font-bold text-[#10367D] uppercase tracking-widest block subheading-font">
@@ -332,10 +332,10 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
                           <span className="text-[10px] text-slate-400 italic block">No recent searches</span>
                         )}
                       </div>
- 
+
                     </div>
                   )}
- 
+
                   {/* Quick Smart Categories row inside dropdown footer */}
                   <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
                     <span className="text-[8px] font-bold text-[#10367D] uppercase tracking-widest block mr-2 subheading-font">
@@ -351,15 +351,15 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
                       </button>
                     ))}
                   </div>
- 
+
                 </div>
               )}
             </div>
- 
+
             {/* Quick Action buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <button 
-                onClick={() => onNavigate('/companies')} 
+              <button
+                onClick={() => onNavigate('/companies')}
                 className="btn-gold flex items-center gap-2 px-6 py-3 rounded-full cursor-pointer text-xs uppercase tracking-wider font-bold animate-pulse"
               >
                 <span>Browse Partners</span>
@@ -372,16 +372,16 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
                 <span>Try Example Search</span>
               </button>
             </div>
- 
+
           </div>
- 
+
           {/* Right Side: Interactive 3D Globe (6 Cols) */}
-          <div className="lg:col-span-6 relative hidden lg:flex items-center justify-center min-h-[500px] lg:min-h-[620px] overflow-visible order-1 lg:order-2">
-            <Globe className="relative inset-auto w-full max-w-[520px] sm:max-w-[600px] lg:max-w-[660px]" />
+          <div className="lg:col-span-6 relative hidden lg:flex items-center justify-center h-[700px] overflow-visible order-1 lg:order-2">
+            <Globe className="relative inset-auto aspect-square w-[520px] sm:w-[600px] lg:w-[660px]" />
           </div>
- 
+
         </div>
- 
+
       </div>
     </section>
   );
