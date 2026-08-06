@@ -203,11 +203,11 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
           <div className="lg:col-span-6 space-y-6 order-2 lg:order-1">
 
             {/* Simplified Hero Heading & Brand Intro */}
-            <div className="space-y-4 text-center lg:text-left">
+            <div className="space-y-4 text-left">
               <img
                 src="/build-bharat-logo.png"
                 alt="Build Bharat Synergy Partners Logo"
-                className="w-full max-w-[280px] sm:max-w-[420px] lg:max-w-[480px] h-auto mx-auto lg:mx-0 object-contain mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
+                className="h-16 sm:h-24 w-auto object-contain object-left mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
               />
               <h1 className="text-2xl sm:text-4xl lg:text-5xl whitespace-nowrap font-extrabold text-[#10367D] tracking-tight leading-tight heading-font">
                 &ldquo;What are you looking for?&rdquo;
@@ -376,7 +376,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
           </div>
 
           {/* Right Side: Interactive 3D Globe (6 Cols) */}
-          <div className="lg:col-span-6 relative hidden lg:flex items-center justify-center h-[700px] overflow-visible order-1 lg:order-2">
+          <div className="lg:col-span-6 relative hidden lg:flex items-center justify-center min-h-[500px] lg:min-h-[620px] overflow-visible order-1 lg:order-2">
             <Globe className="relative inset-auto aspect-square w-[520px] sm:w-[600px] lg:w-[660px]" />
           </div>
 
