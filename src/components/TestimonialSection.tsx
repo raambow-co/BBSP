@@ -1,5 +1,5 @@
-import React from 'react';
-import { Quote } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface Testimonial {
   companyName: string;
@@ -10,6 +10,8 @@ interface Testimonial {
 }
 
 export function TestimonialSection() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   const testimonials: Testimonial[] = [
     {
       companyName: 'Surya Vamsi Infrastructure',
@@ -55,29 +57,18 @@ export function TestimonialSection() {
     EdTech: 'border-[#10367D]/40 text-[#10367D] bg-[#10367D]/10'
   };
 
-  // Duplicate for seamless infinite continuous scroll
-  const continuousTestimonials = [...testimonials, ...testimonials];
+  const handleScroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 360;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <section className="py-16 bg-gradient-to-b from-[#FBF8F2] via-[#FAF6EE] to-[#F5EFE6] border-t border-b border-[#EBE6DD] text-left relative overflow-hidden">
-      <style>{`
-        @keyframes testimonial-marquee {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .testimonial-marquee-track {
-          display: flex;
-          width: max-content;
-          animation: testimonial-marquee 35s linear infinite;
-        }
-        .testimonial-marquee-track:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
       
       {/* Decorative Background Ambient Glows */}
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#B08B54]/10 rounded-full blur-3xl pointer-events-none" />
@@ -85,34 +76,49 @@ export function TestimonialSection() {
 
       <div className="container-custom relative z-10">
         
-        {/* Header Block */}
-        <div className="max-w-xl mx-auto text-center mb-12">
-          <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#B08B54] bg-[#B08B54]/10 px-3.5 py-1.5 rounded-full border border-[#B08B54]/20 shadow-xs inline-block font-sans">
-            Ecosystem Impact
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#1F1D1A] heading-font tracking-tight mt-4 uppercase">
-            Ecosystem Success Stories
-          </h2>
-          <p className="text-[#6E6A61] text-sm sm:text-base mt-3 leading-relaxed font-sans">
-            See how corporate entities and developers are scaling their operations through BuildBharat.
-          </p>
+        {/* Header Block with Scroll Arrow Controls */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+          <div className="max-w-xl">
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#B08B54] bg-[#B08B54]/10 px-3.5 py-1.5 rounded-full border border-[#B08B54]/20 shadow-xs inline-block font-sans">
+              Ecosystem Impact
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-[#1F1D1A] heading-font tracking-tight mt-4 uppercase">
+              Ecosystem Success Stories
+            </h2>
+            <p className="text-[#6E6A61] text-sm sm:text-base mt-3 leading-relaxed font-sans">
+              See how corporate entities and developers are scaling their operations through BuildBharat.
+            </p>
+          </div>
+
+          {/* Navigation Arrow Controls */}
+          <div className="flex items-center gap-3 self-start md:self-end">
+            <button
+              onClick={() => handleScroll('left')}
+              className="w-11 h-11 rounded-full border border-[#EBE6DD] bg-white text-[#1F1D1A] flex items-center justify-center shadow-sm hover:border-[#B08B54] hover:bg-[#B08B54] hover:text-white transition-all cursor-pointer"
+              aria-label="Scroll Left"
+            >
+              <ArrowLeft size={18} />
+            </button>
+            <button
+              onClick={() => handleScroll('right')}
+              className="w-11 h-11 rounded-full border border-[#EBE6DD] bg-white text-[#1F1D1A] flex items-center justify-center shadow-sm hover:border-[#B08B54] hover:bg-[#B08B54] hover:text-white transition-all cursor-pointer"
+              aria-label="Scroll Right"
+            >
+              <ArrowRight size={18} />
+            </button>
+          </div>
         </div>
 
-      </div>
-
-      {/* Continuous Automatic Infinite Marquee Track */}
-      <div 
-        className="relative w-full overflow-hidden py-2 z-10"
-        style={{
-          WebkitMaskImage: 'linear-gradient(to right, transparent, white 8%, white 92%, transparent)',
-          maskImage: 'linear-gradient(to right, transparent, white 8%, white 92%, transparent)',
-        }}
-      >
-        <div className="testimonial-marquee-track flex gap-6 px-4">
-          {continuousTestimonials.map((t, idx) => (
+        {/* Sideways Scrollable Container */}
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 pt-2 scrollbar-none"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {testimonials.map((t, idx) => (
             <div 
-              key={`${t.companyName}-${idx}`} 
-              className="w-[310px] sm:w-[360px] flex-shrink-0 bg-gradient-to-br from-[#FFFFFF] via-[#FAF8F5] to-[#F5EFE6]/70 border border-[#EBE6DD] p-7 rounded-2xl shadow-sm hover:shadow-xl hover:border-[#B08B54]/50 transition-all duration-350 flex flex-col justify-between relative group cursor-pointer"
+              key={idx} 
+              className="w-[300px] sm:w-[360px] flex-shrink-0 snap-start bg-gradient-to-br from-[#FFFFFF] via-[#FAF8F5] to-[#F5EFE6]/70 border border-[#EBE6DD] p-7 rounded-2xl shadow-sm hover:shadow-xl hover:border-[#B08B54]/50 transition-all duration-300 flex flex-col justify-between relative group"
             >
               <div className="space-y-4 relative z-10">
                 <div className="flex items-center justify-between">
@@ -148,6 +154,7 @@ export function TestimonialSection() {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );
