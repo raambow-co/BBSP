@@ -200,7 +200,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center text-left">
           
           {/* Left Side: Copywriting & Search Action (6 Cols) */}
-          <div className="lg:col-span-6 space-y-6">
+          <div className="lg:col-span-6 space-y-6 order-2 lg:order-1">
             
             {/* Simplified Hero Heading & Brand Intro */}
             <div className="space-y-4">
@@ -376,7 +376,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
           </div>
  
           {/* Right Side: Interactive 3D Globe (6 Cols) */}
-          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[500px] lg:min-h-[620px] overflow-visible">
+          <div className="lg:col-span-6 relative flex items-center justify-center min-h-[500px] lg:min-h-[620px] overflow-visible order-1 lg:order-2">
             <Globe className="relative inset-auto w-full max-w-[520px] sm:max-w-[600px] lg:max-w-[660px]" />
           </div>
  
