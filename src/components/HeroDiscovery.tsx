@@ -203,18 +203,15 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
           <div className="lg:col-span-6 space-y-6 order-2 lg:order-1">
 
             {/* Simplified Hero Heading & Brand Intro */}
-            <div className="space-y-4">
+            <div className="space-y-4 text-center lg:text-left">
               <img
                 src="/build-bharat-logo.png"
                 alt="Build Bharat Synergy Partners Logo"
-                className="h-24 sm:h-32 w-auto object-contain object-left mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
+                className="h-32 sm:h-48 w-auto mx-auto lg:mx-0 object-contain mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
               />
               <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10367D] tracking-tight leading-tight heading-font">
                 &ldquo;What are you looking for?&rdquo;
               </h1>
-              <p className="text-[#10367D]/80 text-sm sm:text-base font-medium max-w-lg">
-                Connect with verified companies that match your project requirements. Search businesses, structured financing, energy solutions, and professional training in seconds.
-              </p>
             </div>
 
             {/* Interactive Search Autocomplete Box */}
