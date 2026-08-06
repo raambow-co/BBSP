@@ -207,9 +207,9 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
               <img
                 src="/build-bharat-logo.png"
                 alt="Build Bharat Synergy Partners Logo"
-                className="h-32 sm:h-48 w-auto mx-auto lg:mx-0 object-contain mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
+                className="w-full max-w-[280px] sm:max-w-[420px] lg:max-w-[480px] h-auto mx-auto lg:mx-0 object-contain mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
               />
-              <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10367D] tracking-tight leading-tight heading-font">
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl whitespace-nowrap font-extrabold text-[#10367D] tracking-tight leading-tight heading-font">
                 &ldquo;What are you looking for?&rdquo;
               </h1>
             </div>
