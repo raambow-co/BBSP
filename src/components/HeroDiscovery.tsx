@@ -207,11 +207,14 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
               <img
                 src="/build-bharat-logo.png"
                 alt="Build Bharat Synergy Partners Logo"
-                className="h-16 sm:h-20 w-auto object-contain text-left mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
+                className="h-24 sm:h-32 w-auto object-contain object-left mb-4 hover:scale-105 transition-all duration-700 ease-out drop-shadow-md"
               />
               <h1 className="text-3xl sm:text-5xl font-extrabold text-[#10367D] tracking-tight leading-tight heading-font">
-                What are you looking for?
+                &ldquo;What are you looking for?&rdquo;
               </h1>
+              <p className="text-[#10367D]/80 text-sm sm:text-base font-medium max-w-lg">
+                Connect with verified companies that match your project requirements. Search businesses, structured financing, energy solutions, and professional training in seconds.
+              </p>
             </div>
 
             {/* Interactive Search Autocomplete Box */}
