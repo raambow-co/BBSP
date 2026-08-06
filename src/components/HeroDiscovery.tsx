@@ -377,7 +377,7 @@ export const HeroDiscovery: React.FC<HeroDiscoveryProps> = ({
  
           {/* Right Side: Interactive 3D Globe (6 Cols) */}
           <div className="lg:col-span-6 relative flex items-center justify-center min-h-[500px] lg:min-h-[620px] overflow-visible">
-            <Globe className="relative inset-auto w-full h-full max-w-[520px] sm:max-w-[600px] lg:max-w-[660px]" />
+            <Globe className="relative inset-auto w-full max-w-[520px] sm:max-w-[600px] lg:max-w-[660px]" />
           </div>
  
         </div>

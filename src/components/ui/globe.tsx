@@ -63,38 +63,47 @@ export function Globe({
   }
  
   useEffect(() => {
+    let globe: any = null;
+
     const onResize = () => {
       if (canvasRef.current) {
-        widthRef.current = canvasRef.current.offsetWidth
+        widthRef.current = canvasRef.current.offsetWidth;
       }
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      onResize();
+    });
+
+    if (canvasRef.current) {
+      resizeObserver.observe(canvasRef.current);
     }
+
+    onResize();
  
-    window.addEventListener("resize", onResize)
-    onResize()
- 
-    const globe = createGlobe(canvasRef.current!, {
+    globe = createGlobe(canvasRef.current!, {
       ...config,
       width: widthRef.current * 2,
       height: widthRef.current * 2,
       onRender: (state) => {
-        if (!pointerInteracting.current) phiRef.current += 0.005
-        state.phi = phiRef.current + rs.get()
-        state.width = widthRef.current * 2
-        state.height = widthRef.current * 2
+        if (!pointerInteracting.current) phiRef.current += 0.005;
+        state.phi = phiRef.current + rs.get();
+        state.width = widthRef.current * 2;
+        state.height = widthRef.current * 2;
       },
-    })
+    });
  
     setTimeout(() => {
       if (canvasRef.current) {
-        canvasRef.current.style.opacity = "1"
+        canvasRef.current.style.opacity = "1";
       }
-    }, 0)
+    }, 0);
  
     return () => {
-      globe.destroy()
-      window.removeEventListener("resize", onResize)
-    }
-  }, [rs, config])
+      if (globe) globe.destroy();
+      resizeObserver.disconnect();
+    };
+  }, [rs, config]);
  
   return (
     <div
