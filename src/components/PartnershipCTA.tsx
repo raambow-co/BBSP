@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, ShieldCheck, CheckCircle2, X, FileText, CreditCard, Lock, Check, Loader2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, ShieldCheck, CheckCircle2, X, FileText, CreditCard, Lock, Check, Loader2, UploadCloud, ImageIcon } from 'lucide-react';
  
 interface PartnershipCTAProps {
   isModalOpen: boolean;
@@ -27,31 +27,10 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
   });
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
-  const [paymentLoading, setPaymentLoading] = useState(false);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [paymentId, setPaymentId] = useState('');
-  const [showSimulatedGateway, setShowSimulatedGateway] = useState(false);
-
-  // Load Razorpay Script
-  useEffect(() => {
-    if (!isModalOpen) return;
-
-    if (window.hasOwnProperty('Razorpay')) {
-      setRazorpayLoaded(true);
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    script.onload = () => setRazorpayLoaded(true);
-    script.onerror = () => {
-      console.warn('Razorpay SDK failed to load. Falling back to simulated gateway.');
-      setRazorpayLoaded(false);
-    };
-    document.body.appendChild(script);
-  }, [isModalOpen]);
+  const [screenshot, setScreenshot] = useState<File | null>(null);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submissionId, setSubmissionId] = useState('');
 
   const handleNextStep1 = () => {
     if (policyAccepted && termsAccepted) {
@@ -83,58 +62,61 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
     }
   };
 
-  const handlePayment = () => {
-    setPaymentLoading(true);
-
-    if (razorpayLoaded) {
-      try {
-        const options = {
-          key: 'rzp_test_mockKeyBuildBharat',
-          amount: 500000, // ₹5000 in paise
-          currency: 'INR',
-          name: 'Build Bharat Synergy Partners',
-          description: 'Synergy Network Membership Fee',
-          image: '/build-bharat-logo.png',
-          prefill: {
-            name: formData.fullName,
-            email: formData.email,
-            contact: formData.phone,
-          },
-          notes: {
-            business_name: formData.businessName,
-            category: formData.category,
-          },
-          theme: {
-            color: '#10367D',
-          },
-          handler: function (response: any) {
-            setPaymentId(response.razorpay_payment_id || 'pay_mock_' + Math.random().toString(36).substr(2, 9));
-            setPaymentSuccess(true);
-            setPaymentLoading(false);
-          },
-          modal: {
-            ondismiss: function () {
-              setPaymentLoading(false);
-            }
-          }
-        };
-
-        const rzp = new (window as any).Razorpay(options);
-        rzp.open();
-      } catch (error) {
-        console.error('Razorpay initialization failed', error);
-        setShowSimulatedGateway(true);
-      }
-    } else {
-      setShowSimulatedGateway(true);
+  const handleSubmitRegistration = async () => {
+    if (!screenshot) {
+      alert('Please upload a screenshot of your payment.');
+      return;
     }
-  };
 
-  const handleSimulatedSuccess = () => {
-    setPaymentId('pay_simulated_' + Math.random().toString(36).substr(2, 9));
-    setPaymentSuccess(true);
-    setPaymentLoading(false);
-    setShowSimulatedGateway(false);
+    setSubmitLoading(true);
+
+    try {
+      // Helper function to read file as base64
+      const fileToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = (error) => reject(error);
+        });
+      };
+
+      const base64String = await fileToBase64(screenshot);
+
+      const payload = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        businessName: formData.businessName,
+        category: formData.category,
+        attachmentBase64: base64String,
+        attachmentName: screenshot.name,
+        attachmentType: screenshot.type,
+      };
+
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubmissionId('reg_' + Math.random().toString(36).substr(2, 9));
+        setSubmitSuccess(true);
+      } else {
+        console.error('Submission failed', data);
+        alert('Failed to submit registration. Please try again or contact support.');
+      }
+    } catch (error) {
+      console.error('Error submitting form', error);
+      alert('An error occurred. Please try again later.');
+    } finally {
+      setSubmitLoading(false);
+    }
   };
 
   const handleReset = () => {
@@ -149,10 +131,10 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
       category: 'solar',
     });
     setFormErrors({});
-    setPaymentLoading(false);
-    setPaymentSuccess(false);
-    setPaymentId('');
-    setShowSimulatedGateway(false);
+    setScreenshot(null);
+    setSubmitLoading(false);
+    setSubmitSuccess(false);
+    setSubmissionId('');
     onCloseModal();
   };
 
@@ -318,7 +300,7 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
               <X size={18} />
             </button>
 
-            {paymentSuccess ? (
+            {submitSuccess ? (
               <div className="text-center py-10 flex flex-col items-center justify-center overflow-y-auto">
                 <div className="w-20 h-20 bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-6 border border-emerald-500/20 rounded-full animate-bounce">
                   <CheckCircle2 size={42} />
@@ -327,13 +309,13 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
                   Welcome to the Ecosystem!
                 </h3>
                 <p className="text-stone-600 text-sm max-w-md mx-auto mb-6 leading-relaxed">
-                  Thank you, <strong className="text-stone-900">{formData.fullName}</strong>. Your payment was verified successfully. You are now officially onboarded as a Synergy Partner!
+                  Thank you, <strong className="text-stone-900">{formData.fullName}</strong>. Your details and payment screenshot have been sent for verification. Our team will contact you shortly!
                 </p>
                 
                 <div className="bg-stone-50 border border-stone-200/80 rounded-xl p-4 w-full max-w-md text-left mb-8 text-xs space-y-2">
                   <div className="flex justify-between border-b border-stone-100 pb-2">
-                    <span className="text-stone-400 font-medium uppercase tracking-wider">Payment ID</span>
-                    <span className="font-mono font-bold text-stone-905">{paymentId}</span>
+                    <span className="text-stone-400 font-medium uppercase tracking-wider">Submission ID</span>
+                    <span className="font-mono font-bold text-stone-905">{submissionId}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-stone-400 font-medium uppercase tracking-wider">Contact Email</span>
@@ -512,7 +494,7 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
                     </div>
                   )}
 
-                  {/* STEP 3: Razorpay Connection & Payment */}
+                  {/* STEP 3: QR Payment & Screenshot Upload */}
                   {step === 3 && (
                     <div className="space-y-6">
                       <div className="bg-stone-50 border border-stone-200 rounded-xl p-5 text-center space-y-4">
@@ -525,135 +507,106 @@ export const PartnershipCTA: React.FC<PartnershipCTAProps> = ({
                             ₹5,000<span className="text-xs font-medium text-stone-500"> / one-time</span>
                           </div>
                           <p className="text-xs text-emerald-600 font-bold uppercase tracking-wider">
-                            Secure Connection Protection Guarantee
+                            Scan the QR code below to pay
                           </p>
                         </div>
-
-                        <div className="border-t border-stone-200/60 pt-4 text-left text-xs space-y-2.5 max-w-sm mx-auto text-stone-650">
-                          <div className="flex items-center gap-2">
-                            <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
-                            <span>Instant listing in the Synergy Partners directory</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
-                            <span>Direct credit connection and matching queries</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
-                            <span>Verifiable secure credentials trust badge</span>
-                          </div>
+                        
+                        <div className="py-4">
+                          <img 
+                            src="/bbsp-qr.png" 
+                            alt="Payment QR Code" 
+                            className="w-full max-w-[280px] mx-auto rounded-xl border border-stone-200 shadow-sm"
+                          />
                         </div>
-                      </div>
 
-                      {/* Razorpay load status indicator */}
-                      <div className="flex items-center justify-between text-xs text-stone-500 px-1">
-                        <div className="flex items-center gap-1">
-                          <Lock size={12} className="text-emerald-600" />
-                          <span>Secured & encrypted by Razorpay</span>
-                        </div>
-                        <span>
-                          {razorpayLoaded ? 'Gateway ready' : 'Gateway standby (offline mode available)'}
-                        </span>
-                      </div>
-
-                      {showSimulatedGateway && (
-                        <div className="bg-amber-50 border border-amber-200/80 rounded-xl p-4 space-y-3 animate-fadeIn">
-                          <div className="flex items-start gap-2.5">
-                            <div className="p-1.5 bg-amber-500/10 text-amber-700 rounded-lg shrink-0">
-                              <CreditCard size={16} />
-                            </div>
-                            <div>
-                              <h5 className="text-xs font-bold text-amber-850">Razorpay Simulation Mode</h5>
-                              <p className="text-[11px] text-stone-600 leading-relaxed mt-0.5">
-                                The Razorpay SDK loaded in sandbox or simulated fallback. Perform a mock payment transaction to complete the sign up.
+                        <div className="border-t border-stone-200/60 pt-4 text-left text-xs space-y-4">
+                          <div>
+                            <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                              <ImageIcon size={14} className="text-[#10367D]" />
+                              Upload Payment Screenshot *
+                            </label>
+                            <input 
+                              type="file" 
+                              accept="image/*"
+                              onChange={(e) => {
+                                if (e.target.files && e.target.files[0]) {
+                                  setScreenshot(e.target.files[0]);
+                                }
+                              }}
+                              className="w-full text-stone-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-[#10367D]/10 file:text-[#10367D] hover:file:bg-[#10367D]/20 cursor-pointer border border-stone-200 rounded-xl p-1 bg-white"
+                            />
+                            {screenshot && (
+                              <p className="mt-2 text-xs text-emerald-600 flex items-center gap-1">
+                                <CheckCircle2 size={12} /> Screenshot selected: {screenshot.name}
                               </p>
-                            </div>
-                          </div>
-
-                          <div className="flex gap-2 justify-end pt-1">
-                            <button
-                              type="button"
-                              onClick={() => setShowSimulatedGateway(false)}
-                              className="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-700 border border-stone-200 rounded-lg text-[10px] font-bold uppercase tracking-wider cursor-pointer"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              type="button"
-                              onClick={handleSimulatedSuccess}
-                              className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] font-bold uppercase tracking-wider cursor-pointer"
-                            >
-                              Confirm Mock Payment Success
-                            </button>
+                            )}
                           </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   )}
                 </div>
 
                 {/* Stepper Navigation Buttons */}
-                {!showSimulatedGateway && (
-                  <div className="flex items-center justify-between gap-4 pt-4 border-t border-stone-200 shrink-0">
-                    {step > 1 ? (
-                      <button
-                        type="button"
-                        onClick={() => setStep(prev => prev - 1)}
-                        disabled={paymentLoading}
-                        className="bg-stone-100 hover:bg-stone-200 disabled:opacity-50 text-stone-850 border border-stone-200 rounded-full px-5 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold transition-all"
-                      >
-                        <ArrowLeft size={14} />
-                        <span>Back</span>
-                      </button>
-                    ) : (
-                      <div />
-                    )}
+                <div className="flex items-center justify-between gap-4 pt-4 border-t border-stone-200 shrink-0">
+                  {step > 1 ? (
+                    <button
+                      type="button"
+                      onClick={() => setStep(prev => prev - 1)}
+                      disabled={submitLoading}
+                      className="bg-stone-100 hover:bg-stone-200 disabled:opacity-50 text-stone-850 border border-stone-200 rounded-full px-5 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold transition-all"
+                    >
+                      <ArrowLeft size={14} />
+                      <span>Back</span>
+                    </button>
+                  ) : (
+                    <div />
+                  )}
 
-                    {step === 1 && (
-                      <button
-                        type="button"
-                        onClick={handleNextStep1}
-                        disabled={!policyAccepted || !termsAccepted}
-                        className="bg-[#10367D] hover:bg-[#10367D]/95 disabled:opacity-50 text-white rounded-full px-6 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold transition-all ml-auto"
-                      >
-                        <span>Accept & Continue</span>
-                        <ArrowRight size={14} />
-                      </button>
-                    )}
+                  {step === 1 && (
+                    <button
+                      type="button"
+                      onClick={handleNextStep1}
+                      disabled={!policyAccepted || !termsAccepted}
+                      className="bg-[#10367D] hover:bg-[#10367D]/95 disabled:opacity-50 text-white rounded-full px-6 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold transition-all ml-auto"
+                    >
+                      <span>Accept & Continue</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  )}
 
-                    {step === 2 && (
-                      <button
-                        type="button"
-                        onClick={handleNextStep2}
-                        className="bg-[#10367D] hover:bg-[#10367D]/95 text-white rounded-full px-6 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold transition-all ml-auto"
-                      >
-                        <span>Save & Proceed</span>
-                        <ArrowRight size={14} />
-                      </button>
-                    )}
+                  {step === 2 && (
+                    <button
+                      type="button"
+                      onClick={handleNextStep2}
+                      className="bg-[#10367D] hover:bg-[#10367D]/95 text-white rounded-full px-6 py-2.5 flex items-center justify-center gap-1.5 cursor-pointer text-xs uppercase tracking-wider font-bold transition-all ml-auto"
+                    >
+                      <span>Save & Proceed</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  )}
 
-                    {step === 3 && (
-                      <button
-                        type="button"
-                        onClick={handlePayment}
-                        disabled={paymentLoading}
-                        className="bg-[#E2B049] hover:bg-[#c99b38] disabled:opacity-60 text-slate-950 rounded-full px-8 py-3 flex items-center justify-center gap-2 cursor-pointer text-xs uppercase tracking-wider font-black transition-all ml-auto shadow-md"
-                      >
-                        {paymentLoading ? (
-                          <>
-                            <Loader2 className="animate-spin" size={14} />
-                            <span>Processing Connection...</span>
-                          </>
-                        ) : (
-                          <>
-                            <CreditCard size={14} />
-                            <span>Pay & Connect via Razorpay</span>
-                          </>
-                        )}
-                      </button>
-                    )}
-                  </div>
-                )}
+                  {step === 3 && (
+                    <button
+                      type="button"
+                      onClick={handleSubmitRegistration}
+                      disabled={submitLoading || !screenshot}
+                      className="bg-[#E2B049] hover:bg-[#c99b38] disabled:opacity-60 disabled:cursor-not-allowed text-slate-950 rounded-full px-8 py-3 flex items-center justify-center gap-2 cursor-pointer text-xs uppercase tracking-wider font-black transition-all ml-auto shadow-md"
+                    >
+                      {submitLoading ? (
+                        <>
+                          <Loader2 className="animate-spin" size={14} />
+                          <span>Submitting...</span>
+                        </>
+                      ) : (
+                        <>
+                          <UploadCloud size={14} />
+                          <span>Submit Registration</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </div>
