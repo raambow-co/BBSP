@@ -6,7 +6,6 @@ export function HowItWorks() {
     {
       num: '01',
       title: 'Search by Need',
-      desc: 'Type your requirements in natural language or browse specific B2B pillars like Solar, Real Estate, and Capital Loans.',
       supportingDesc: 'Tell us what you need — solar, loans, real estate, or training.',
       icon: <Search className="text-[#10367D]" size={20} />,
       iconBg: 'bg-[#10367D]/10 border-[#10367D]/20 text-[#10367D]',
@@ -15,7 +14,6 @@ export function HowItWorks() {
     {
       num: '02',
       title: 'Get Verified Matches',
-      desc: 'Our synergy platform matches your project requirements with audited, credit-verified, and licensed providers.',
       supportingDesc: 'We match you with verified, qualified partners in your region.',
       icon: <Compass className="text-[#B08B54]" size={20} />,
       iconBg: 'bg-[#B08B54]/10 border-[#B08B54]/20 text-[#B08B54]',
@@ -24,7 +22,6 @@ export function HowItWorks() {
     {
       num: '03',
       title: 'Connect & Execute',
-      desc: 'Collaborate directly with authorized partner representatives to close contracts and launch operations smoothly.',
       supportingDesc: 'Connect directly and start your project with confidence.',
       icon: <ShieldCheck className="text-emerald-600" size={20} />,
       iconBg: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600',
@@ -72,9 +69,6 @@ export function HowItWorks() {
                 <h3 className="text-xl font-extrabold text-[#10367D] heading-font uppercase tracking-wide mb-3">
                   {step.title}
                 </h3>
-                <p className="text-slate-600 text-sm leading-relaxed font-sans mb-4">
-                  {step.desc}
-                </p>
                 <div className="mt-auto pt-4 border-t border-slate-100 w-full">
                   <p className="text-[#10367D]/70 text-[10px] font-bold uppercase tracking-widest font-sans">
                     {step.supportingDesc}
